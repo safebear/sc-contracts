@@ -1,6 +1,8 @@
 pragma solidity ^0.4.19;
 
-contract GTokenFactory {
+import "./ownable.sol";
+
+contract GTokenFactory is Ownable {
 // This is the token for bases and lairs
 // Probably the most important token!
 // We need to identify if it's a base or a lair (from now on just called bases)
@@ -32,6 +34,11 @@ mapping (uint => address) public tokenToOwner;
 mapping (address => uint) ownerTokenCount;
 
 // marking as internal as only used in contract or by contracts that inherit it. Note the underscore before the function name.
+
+// We need another function here with the onlyOwner modifier that passes throught a unique Id
+// given to the user when they're in range of the base.
+// This is then compared to the id the user passes through when calling the create function
+// We also need to ensure that the base isn't already taken - check the location parameter
 
 function _createToken(string _typeOf, string _name, uint _dna, int[2] _location) internal {
     // need a way to ensure that they are authorised to request this - how?

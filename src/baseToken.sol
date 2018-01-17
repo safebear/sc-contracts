@@ -36,6 +36,20 @@ contract BaseToken is GTokenFactory {
 // inherit from it. Then we can limit functions to 'only owner'.
 // these should really only be maintenance functions I guess.
 
+// Inside structs, you should use the smallest uint size possible to save space
+// for small integers (e.g. timestamp), use uint32 rather than uint (which is uint256)
+// and also cluster identical data types together to save space
+
+/**
+solidity native time units:
+
+'now' will return the current unix timestamp
+the number of seconds since Jan 1st 1979 - 748397582375 (a 32 bit number)
+
+
+
+*/
+
 
 }
 
