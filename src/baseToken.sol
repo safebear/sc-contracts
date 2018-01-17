@@ -45,8 +45,43 @@ solidity native time units:
 
 'now' will return the current unix timestamp
 the number of seconds since Jan 1st 1979 - 748397582375 (a 32 bit number)
+now returns a uint256, so you need to convert it to a uint32 using uint32()
 
+Unix time is traditionally stored in a 32-bit number, 
+which will lead to the year 2038 problem.
+But if we store it as a 64 bit number it was cost our users more to run the contract
 
+time units seconds, minutes, hours, days, weeks, and years convert to a uint of the number 
+of seconds in that time.
+
+1 minute is 60, 1 hour 3600 etc.
+
+uint lastUpdated;
+
+// set 'lastUpdated' to 'now'
+function updateTimestamp() public {
+    lastUpdated = now;
+}
+
+// Will return true if 5 minutes have passed since 'updateTimestamp' was 
+// called, 'false' if 5 minutes have not passed
+function fiveMinutesHavePassed() public view returns (bool) {
+    return (now >= (lastUpdated + 5 minutes));
+}
+
+remember to use 'view' functions as these don't cost gas (e.g. 'external view' for
+functions where you only need to query the blockchain).
+
+View functions are only free when called externally. If they're called by another
+function which is not 'view' they cost money.
+
+Cheaper to use 'memory' to store data rather than 'storage' if you use 'storage'
+in a 'external view' function, then that function will cost money!
+
+memory arrays must be created with a length argument. E.g.
+uint[] memory values = new uint[](3);
+the length is 3.
+See in Crypto Zombies level 3 chapter 11 how to set this array length using a count function. 
 
 */
 
